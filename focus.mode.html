@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>BizLaunch - Professional Portfolio</title>
+    <style>
+        :root {
+            --primary: #0a192f;   /* To'q moviy */
+            --gold: #d4af37;      /* Tilla rang (qimmat ko'rinish uchun) */
+            --text: #ccd6f6;
+            --white: #ffffff;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        header {
+            padding: 20px; text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        /* Xizmatlar kartochkalari */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #112240;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid transparent;
+            transition: 0.4s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-10px);
+        }
+
+        .card h3 { color: var(--gold); margin-top: 0; }
+
+        /* Narx hisoblagich */
+        .calculator {
+            background: #172a45;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .price-tag { font-size: 40px; color: var(--gold); font-weight: bold; }
+
+        .order-btn {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .order-btn:hover { opacity: 0.9; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>💼 BIZ<span style="color: var(--gold);">LAUNCH</span></h1>
+</header>
+
+<div class="container">
+    <div class="services">
+        <!-- Xizmat 1 -->
+        <div class="card" onclick="toggleService(this, 100000)">
+            <h3>🌐 Sayt Yaratish</h3>
+            <p>Siz uchun professional va tezkor veb-sayt tayyorlab beramiz.</p>
+            <p><strong>Narxi: 100,000 so'm</strong></p>
+        </div>
+
+        <!-- Xizmat 2 -->
+        <div class="card" onclick="toggleService(this, 50000)">
+            <h3>🎨 Dizayn Xizmati</h3>
+            <p>Logotip va ijtimoiy tarmoqlar uchun dizaynlar.</p>
+            <p><strong>Narxi: 50,000 so'm</strong></p>
+        </div>
+
+        <!-- Xizmat 3 -->
+        <div class="card" onclick="toggleService(this, 30000)">
+            <h3>🚀 Bot Yaratish</h3>
+            <p>Telegram orqali biznesingizni avtomatlashtirish.</p>
+            <p><strong>Narxi: 30,000 so'm</strong></p>
+        </div>
+    </div>
+
+    <!-- Dinamik narx hisoblagich -->
+    <div class="calculator">
+        <h2>UMUMIY HISOB:</h2>
+        <div class="price-tag" id="totalPrice">0 so'm</div>
+        <p>Xizmatlarni tanlang va pastdagi tugmani bosing</p>
+        <button class="order-btn" onclick="sendOrder()">BUYURTMA BERISH (WhatsApp)</button>
+    </div>
+</div>
+
+<script>
+    let total = 0;
+    let selectedServices = [];
+
+    // Xizmatni tanlash funksiyasi
+    function toggleService(element, price) {
+        const title = element.querySelector('h3').innerText;
+        
+        if (element.style.borderColor === 'rgb(212, 175, 55)') { // Agar tanlangan bo'lsa
+            element.style.borderColor = 'transparent';
+            total -= price;
+            selectedServices = selectedServices.filter(s => s !== title);
+        } else { // Tanlanmagan bo'lsa
+            element.style.borderColor = 'var(--gold)';
+            total += price;
+            selectedServices.push(title);
+        }
+        
+        document.getElementById('totalPrice').innerText = total.toLocaleString() + " so'm";
+    }
+
+    // WhatsApp-ga buyurtma yuborish
+    function sendOrder() {
+        if (total === 0) {
+            alert("Iltimos, xizmatlardan birini tanlang!");
+            return;
+        }
+
+        const phone = "998901234567"; // O'zingizni raqamingizni yozing
+        const text = `Salom! Men BizLaunch orqali buyurtma bermoqchiman.%0A%0A📦 Xizmatlar: ${selectedServices.join(", ")}%0A💰 Jami: ${total.toLocaleString()} so'm`;
+        
+        window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
